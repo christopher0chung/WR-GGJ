@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class HazardSpawner : MonoBehaviour {
 
-	public float hazardDelay;
+	public float hazardDelayMin;
+	public float hazardDelayMax;
 	private int index = 0;
 
 	public GameObject[] hazards;
@@ -18,7 +19,7 @@ public class HazardSpawner : MonoBehaviour {
 			} else {
 
 				while (IsInvoking ("SpawnHazard") == false) {
-					Invoke ("SpawnHazard", hazardDelay);
+					Invoke ("SpawnHazard", Random.Range(hazardDelayMin, hazardDelayMax));
 					index++;
 				}
 			}
