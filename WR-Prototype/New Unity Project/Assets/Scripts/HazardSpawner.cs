@@ -19,10 +19,12 @@ public class HazardSpawner : MonoBehaviour {
 			} else {
 
 				while (IsInvoking ("SpawnHazard") == false) {
-					Invoke ("SpawnHazard", Random.Range(hazardDelayMin, hazardDelayMax));
+					Invoke ("SpawnHazard", Random.Range (hazardDelayMin, hazardDelayMax));
 					index++;
 				}
 			}
+		} else {  //this else causes blocks to spawn infinitely. Remove once end game state is created.
+			index = 0;
 		}
 	}
 
