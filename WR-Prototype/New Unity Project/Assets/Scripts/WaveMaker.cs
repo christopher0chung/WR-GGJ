@@ -30,22 +30,30 @@ public class WaveMaker : MonoBehaviour {
 
     public float[] points;
 
-    private VectorLine graphic;
-    public Vector3[] values;
+    private VectorLine graphicMain;
+    private VectorLine graphicLeft;
+    private VectorLine graphicRight;
+    public Vector3[] valuesMain;
+    public Vector3[] valuesLeft;
+    public Vector3[] valuesRight;
     public int segmentNum;
     public float lineWidth;
 
     // Use this for initialization
     void Start () {
         points = new float[100];
-        values = new Vector3[100];
+        valuesMain = new Vector3[100];
+        valuesLeft = new Vector3[100];
+        valuesRight = new Vector3[100];
 
         for (int i = 0; i < 100; i++)
         {
             pointsLS.Add(0);
             pointsRS.Add(0);
             points[i] = 0.0f;
-            values[i] = Vector3.zero;
+            valuesMain[i] = Vector3.zero;
+            valuesLeft[i] = Vector3.zero;
+            valuesRight[i] = Vector3.zero;
         }
         InitLine();
 	}
@@ -81,7 +89,7 @@ public class WaveMaker : MonoBehaviour {
     {
         for (int i = 0; i < 100; i++)
         {
-            points[i] = (pointsLS[i] + pointsRS[99 - i]);
+            points[i] = (pointsLS[99 - i] + pointsRS[i]);
         }
     }
 
@@ -89,19 +97,30 @@ public class WaveMaker : MonoBehaviour {
     {
         for (int i = 0; i < 100; i++)
         {
-            values[i] = new Vector3(100 - (i * 2), points[i], 0);
+            valuesMain[i] = new Vector3(-100 + (i * 2), points[i], 0);
+            valuesLeft[i] = new Vector3(-10 - (i * .9f), pointsLS[i] / 5 - 40, 0);
+            valuesRight[i] = new Vector3(10 + (i * .9f), pointsRS[i] / 5 - 40, 0);
         }
-        graphic.MakeSpline(values);
-        graphic.Draw();
+        graphicMain.MakeSpline(valuesMain);
+        graphicLeft.MakeSpline(valuesLeft);
+        graphicRight.MakeSpline(valuesRight);
+
+        graphicMain.Draw();
+        graphicLeft.Draw();
+        graphicRight.Draw();
     }
 
     public void InitLine()
     {
-        graphic = new VectorLine("Squiggle", new List<Vector3>(segmentNum), null, lineWidth, LineType.Discrete, Joins.Weld);
+        graphicMain = new VectorLine("SquiggleMain", new List<Vector3>(segmentNum), null, lineWidth, LineType.Discrete, Joins.Weld);
+        graphicLeft = new VectorLine("SquiggleLeft", new List<Vector3>(segmentNum), null, lineWidth, LineType.Discrete, Joins.Weld);
+        graphicRight = new VectorLine("SquiggleRight", new List<Vector3>(segmentNum), null, lineWidth, LineType.Discrete, Joins.Weld);
     }
 
     public void ShutDownLine()
     {
-        VectorLine.Destroy(ref graphic);
+        VectorLine.Destroy(ref graphicMain);
+        VectorLine.Destroy(ref graphicLeft);
+        VectorLine.Destroy(ref graphicRight);
     }
 }
