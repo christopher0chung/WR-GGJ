@@ -15,6 +15,6 @@ public class Visualizer : MonoBehaviour {
 	void FixedUpdate () {
         int whichToFollow = (99 - (int)transform.position.x) / 2;
         //Debug.Log(whichToFollow);
-        transform.position = new Vector3(transform.position.x, myWM.points[whichToFollow], 0);
+        transform.position = new Vector3(transform.position.x, myWM.points[whichToFollow] + 5, 0);
 	}
 }
