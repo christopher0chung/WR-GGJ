@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/InControl/Examples/Basic/Basic.unity
-  isLoaded: 1
-  isActive: 1
