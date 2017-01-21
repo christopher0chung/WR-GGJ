@@ -23,7 +23,7 @@ public class MakeVisualizers : MonoBehaviour {
             }
             else
             {
-                GameObject thisVE = Instantiate(myVE, new Vector3(-100 + (i * 5), 0, 0), Quaternion.identity, transform);
+                //GameObject thisVE = Instantiate(myVE, new Vector3(-100 + (i * 5), 0, 0), Quaternion.identity, transform);
             }
         }
     }

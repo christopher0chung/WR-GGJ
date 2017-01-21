@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Vectrosity;
 
 public class WaveMaker : MonoBehaviour {
 
@@ -29,21 +30,31 @@ public class WaveMaker : MonoBehaviour {
 
     public float[] points;
 
-	// Use this for initialization
-	void Start () {
+    private VectorLine graphic;
+    public Vector3[] values;
+    public int segmentNum;
+    public float lineWidth;
+
+    // Use this for initialization
+    void Start () {
         points = new float[100];
-		for (int i = 0; i < 100; i++)
+        values = new Vector3[100];
+
+        for (int i = 0; i < 100; i++)
         {
             pointsLS.Add(0);
             pointsRS.Add(0);
             points[i] = 0.0f;
+            values[i] = Vector3.zero;
         }
+        InitLine();
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
         MakeNewPoint();
         CombinePoints();
+        DrawLine();
 	}
 
     void MakeNewPoint ()
@@ -72,5 +83,25 @@ public class WaveMaker : MonoBehaviour {
         {
             points[i] = (pointsLS[i] + pointsRS[99 - i]);
         }
+    }
+
+    void DrawLine()
+    {
+        for (int i = 0; i < 100; i++)
+        {
+            values[i] = new Vector3(100 - (i * 2), points[i], 0);
+        }
+        graphic.MakeSpline(values);
+        graphic.Draw();
+    }
+
+    public void InitLine()
+    {
+        graphic = new VectorLine("Squiggle", new List<Vector3>(segmentNum), null, lineWidth, LineType.Discrete, Joins.Weld);
+    }
+
+    public void ShutDownLine()
+    {
+        VectorLine.Destroy(ref graphic);
     }
 }
